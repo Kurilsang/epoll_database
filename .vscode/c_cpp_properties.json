@@ -5,7 +5,9 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/server/start",
-                "${workspaceFolder}/server/epoll"
+                "${workspaceFolder}/server/epoll",
+                "${workspaceFolder}/server/log"
+                // "${workspaceFolder}/server/logger"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

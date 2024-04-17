@@ -1,6 +1,8 @@
 #include "epoll.h"
+#include "log.h"
+using namespace kuril::utility;
 
-int start_epoll()
+int start_epoll(int port)
 {
     //socket创建
     int server = socket(AF_INET, SOCK_STREAM, 0);
@@ -9,16 +11,18 @@ int start_epoll()
         perror("server socket error");
         return -1;
     }
+
     //绑定地址簇
     struct sockaddr_in ser_addr;//server_addr
     memset(&ser_addr,0,sizeof(ser_addr));
     ser_addr.sin_family = AF_INET;
-    ser_addr.sin_port = htons(6969);
+    ser_addr.sin_port = htons(port);
     ser_addr.sin_addr.s_addr = htonl(INADDR_ANY);//获取本地所有 与 addr_inet("0.0.0.0")等同
     int ret = bind(server,(sockaddr*)&ser_addr, sizeof(ser_addr));
     if (-1 == ret)
     {
         perror("bind error");
+        fatal("bind失败");
         return -1;
     }
     //设置端口复用
@@ -29,6 +33,7 @@ int start_epoll()
     if (-1 == ret)
     {
         perror("listen error");
+        fatal("listen失败");
         return -1;
     }
     //epoll模型
@@ -36,6 +41,7 @@ int start_epoll()
     if (-1 == epfd)
     {
         perror("epoll create error");
+        fatal("epoll模型创建失败");
         return -1;
     }
     //添加检测节点
@@ -46,6 +52,7 @@ int start_epoll()
     if (-1 == ret)
     {
         perror("epoll_ctl error");
+        fatal("epoll模型添加事件失败");
         return -1;
     }
     //事件集及其个数
@@ -56,6 +63,7 @@ int start_epoll()
     memset(&client_addr,0,sizeof(sockaddr_in));
     client_addr.sin_family = AF_INET;
     int len_c = sizeof(sockaddr_in);//转化为左值，后面转换类型能用
+    debug("epoll模型建立完成,开始进入循环工作...");
     //accept
     while(1)
     {

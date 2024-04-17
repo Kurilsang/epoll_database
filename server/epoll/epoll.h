@@ -10,4 +10,4 @@
 
 using namespace std;
 
-int start_epoll();
+int start_epoll(int port);

@@ -11,7 +11,9 @@
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}",
                 "-I", "${workspaceFolder}/server/start","${workspaceFolder}/server/start/start.cpp",
-                "-I", "${workspaceFolder}/server/epoll", "${workspaceFolder}/server/epoll/epoll.cpp"
+                "-I", "${workspaceFolder}/server/epoll", "${workspaceFolder}/server/epoll/epoll.cpp",
+                "-I", "${workspaceFolder}/server/log", "${workspaceFolder}/server/log/log.cpp",
+                // "-I", "${workspaceFolder}/server/logger", "${workspaceFolder}/server/logger/logger.cpp",
             ],
             "options": {
                 "cwd": "${fileDirname}"
